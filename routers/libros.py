@@ -34,7 +34,7 @@ def crear_libro(libro: libroCreate,db: Session = Depends(get_db)):
 @router.get("/", response_model=List[libroResponse])
 def listar_libros(skip:int=0, limit:int=10, db:Session=Depends(get_db)):
     libros = db.query(Libro).offset(skip).limit(limit).all()
-
+    return libros
 # Buscar libro por id de libro
 @router.get("/libro/{libro_id}")
 def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
