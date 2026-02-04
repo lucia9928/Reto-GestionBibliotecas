@@ -25,8 +25,19 @@ def listar_prestamos(skip: int=0, limit: int=10, db:Session=Depends(get_db)):
 # Listar prestamo de un libro especifico
 @router.get("/loans/libro{book_id}", response_model=PrestamoResponse)
 def obtener_prestamos():
-    pass
+    prestamo = db.query(Prestamo).filter(Prestamo.libro_id == book_id).first()
+    
+    if not prestamo:
+        raise HTTPException(status_code=404, detail="Prestamo no encontrado")
+    return prestamo
 
 @router.put("loans/{loan_id}/return")
 def marcar_prestamo():
-    pass
+    prestamo = db.query(Prestamo).filter(Prestamo.id == loan_id).first()
+    
+    if not prestamo:
+        raise HTTPException(status_code=404, detail="Prestamo no encontrado")
+    prestamo.returned = True
+    db.commit()
+    db.refresh(prestamo)
+    return prestamo
