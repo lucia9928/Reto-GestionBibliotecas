@@ -10,7 +10,7 @@ from models.libro import Libro
 from main import  app
 
 # Crear libros
-@app.post("/", response_model=libroResponse, status_code=201)
+@app.post("/book", response_model=libroResponse, status_code=201)
 def crear_libro(libro: libroCreate,db: Session = Depends(get_db)):
     db_libro = Libro(
         title=libro.title,
@@ -32,7 +32,7 @@ def listar_libros(skip:int=0, limit:int=10, db:Session=Depends(get_db)):
     libros = db.query(Libro).offset(skip).limit(limit).all()
 
 # Buscar libro por id de libro
-@app.get("/libro/{libro_id}")
+@app.get("/book/{book_id}", response_model=libroResponse)
 def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
     libro = db.query(Libro).filter(Libro.id == libro_id).first()
 
@@ -41,7 +41,7 @@ def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
     return libro
 
 # Actualizar los libros
-@app.put("/libro/{libro_id}/availability")
+@app.put("/book/{book_id}/availability")
 def actualizar():
     pass
 
