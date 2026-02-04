@@ -11,6 +11,5 @@ class libroCreate(libroBase):
 class libroResponse(libroBase):
     id:int
     autor_id: int
-
     class Config:
         from_attributes = True
