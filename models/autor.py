@@ -12,6 +12,6 @@ class Autor(Base):
     birth_year = Column(Integer, nullable=True)
 
     # Relaciones
-    re_libros = relationship("Libro", backref="autores")
+    libros = relationship("Libro", back_populates="autores")
 
 

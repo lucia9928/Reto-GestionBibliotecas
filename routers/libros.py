@@ -21,7 +21,7 @@ def crear_libro(libro: libroCreate,db: Session = Depends(get_db)):
         isbn=libro.isbn,
         publication_year=libro.publication_year,
         available_copies=libro.available_copies,
-        author_id=libro.autor_id
+        autor_id=libro.autor_id
     )
 
     # Confirmar cambios en la base de datos
