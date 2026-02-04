@@ -8,10 +8,10 @@ title="Gestion de Bibliotecas",
 description="Reto Gestion de bibliotecas",
 version="1.0.0",
 )
-app.include_router(autores.routers)
-app.include_router(libros.routers)
-app.include_router(prestamos.routers)
 
+app.include_router(autores.router)
+app.include_router(libros.router)
+app.include_router(prestamos.router)
 @app.get("/")
 def read_root():
     return {"message": "gestion de Bibliotecas API"}
