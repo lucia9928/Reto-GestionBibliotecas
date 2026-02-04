@@ -1,16 +1,20 @@
 import re
 from typing import List
 
-from fastapi import HTTPException
+from fastapi import HTTPException, APIRouter
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from config.database import get_db
 from schemas.libro import libroCreate, libroResponse
 from models.libro import Libro
-from main import  app
 
+
+router = APIRouter(
+prefix="/libros",
+tags=["libros"],
+)
 # Crear libros
-@app.post("/", response_model=libroResponse, status_code=201)
+@router.post("/", response_model=libroResponse, status_code=201)
 def crear_libro(libro: libroCreate,db: Session = Depends(get_db)):
     db_libro = Libro(
         title=libro.title,
@@ -27,12 +31,12 @@ def crear_libro(libro: libroCreate,db: Session = Depends(get_db)):
     return db_libro
 
 # Listar libros
-@app.get("/", response_model=List[libroResponse])
+@router.get("/", response_model=List[libroResponse])
 def listar_libros(skip:int=0, limit:int=10, db:Session=Depends(get_db)):
     libros = db.query(Libro).offset(skip).limit(limit).all()
 
 # Buscar libro por id de libro
-@app.get("/libro/{libro_id}")
+@router.get("/libro/{libro_id}")
 def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
     libro = db.query(Libro).filter(Libro.id == libro_id).first()
 
@@ -41,7 +45,7 @@ def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
     return libro
 
 # Actualizar los libros
-@app.put("/libro/{libro_id}/availability")
+@router.put("/libro/{libro_id}/availability")
 def actualizar():
     pass
 
