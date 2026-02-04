@@ -15,11 +15,8 @@ class Prestamo(Base):
     loan_date = Column(String, nullable=False)
     return_date = Column(String, nullable=False)
 
-
-    returned = Column(Boolean, default=False)
-
     # Relacion
-    re_libro = relationship("Libro", back_populates="autor")
+    re_libro = relationship("Libro", back_populates="prestamos")
 
 
 
