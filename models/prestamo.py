@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.libro import Libro
 
@@ -13,9 +13,10 @@ class Prestamo(Base):
     #FALTA VALIDAR FORMATO DE FECHA
     loan_date = Column(String, nullable=False)
     return_date = Column(String, nullable=False)
-
+    #foreigkey
+    libro_id = Column(Integer, ForeignKey("libro.id"), nullable=False)
     # Relacion
-    re_libro = relationship("Libro", back_populates="prestamos")
+    libro = relationship("Libro", back_populates="loans")
 
 
 

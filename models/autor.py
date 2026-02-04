@@ -8,10 +8,10 @@ class Autor(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
-    nationality = Column(String(50),nullable=False)
+    nacionality = Column(String(50),nullable=False)
     birth_year = Column(Integer, nullable=True)
 
     # Relaciones
-    re_libros = relationship("Libro", back_populates="autores")
+    libros = relationship("Libro", back_populates="autores")
 
 
