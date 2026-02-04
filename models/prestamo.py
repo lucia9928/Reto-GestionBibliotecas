@@ -1,8 +1,5 @@
-from symtable import Class
-
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
-from sqlalchemy.orm import relationship, validates
-from models.autor import Autor
+from sqlalchemy.orm import relationship
 from models.libro import Libro
 
 from config.database import Base
@@ -14,24 +11,12 @@ class Prestamo(Base):
     book_id = Column(Integer, ForeignKey=Libro.id)
     borrower_name = Column(String(100), nullable=False)
     borrower_email = Column(String(120), nullable=False)
-    loan_date = Column(String, nullable=False, )
+    #FALTA VALIDAR FORMATO DE FECHA
+    loan_date = Column(String, nullable=False)
     return_date = Column(String, nullable=False)
 
-    @validates("loan_date", "return_date")
-    def validate_date_format(self, key, value):
-        if value is None:
-            return value
-
-        if not re.match(r"^\d{4}-\d{2}-\d{2}$", value):
-            raise ValueError(
-                f"{key} debe tener el formato YYYY-MM-DD"
-            )
-
-
-    returned = Column(Boolean, default=False)
-
     # Relacion
-    re_libro = relationship("Libro", back_populates="autor")
+    re_libro = relationship("Libro", back_populates="prestamos")
 
 
 
