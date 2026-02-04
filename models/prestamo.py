@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from models.libro import Libro
 
@@ -12,7 +12,8 @@ class Prestamo(Base):
     borrower_email = Column(String(120), nullable=False)
     #FALTA VALIDAR FORMATO DE FECHA
     loan_date = Column(String, nullable=False)
-    return_date = Column(String, nullable=False)
+    return_date = Column(String, nullable=True) #debe estar en nulo porque al crear un prestamo no se crea la fecha en que devuelve el libro
+    returned = Column(Boolean, default=False)
     #foreigkey
     libro_id = Column(Integer, ForeignKey("libro.id"), nullable=False)
     # Relacion

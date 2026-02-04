@@ -1,5 +1,5 @@
 from typing import List
-
+from datetime import date
 from fastapi import HTTPException,APIRouter
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
@@ -17,16 +17,23 @@ tags=["prestamos"],
 @router.post("/loans",response_model=PrestamoResponse)
 def registrar_prestamo(prestamo:PrestamoCreate, db:Session=Depends(get_db)):
     # Verificar que el libro exista
-    libro = db.query(Libro).filter(Libro.id == prestamo.user_id).first()
+    libro = db.query(Libro).filter(Libro.id == prestamo.libro_id).first()
     if not libro:
-        raise HTTPException(status_code=404, detail="Libro (user) not found")
+        raise HTTPException(status_code=404, detail="libro no encontrado")
+    if libro.available_copies < 1:
+        raise HTTPException(status_code=400, detail="No hay copias disponibles")
+
     db_prestamo = Prestamo(
-        borrower_name: prestamo.borrower_name,
-        borrower_email: prestamo.borrower_email,
-        loan_date: prestamo.loan_date,
-        return_date: prestamo.return_date,
-        returned: prestamo.returned
+        libro_id=prestamo.libro_id,
+        borrower_name=prestamo.borrower_name,
+        borrower_email=prestamo.borrower_email,
+        loan_date=date.today().isoformat(),
+        return_date=None,
+        returned= False
+
     )
+    libro.available_copies -=1
+
     db.add(db_prestamo)
     db.commit()
     db.refresh(db_prestamo)
