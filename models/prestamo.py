@@ -21,8 +21,7 @@ class Prestamo(Base):
     def validate_date_format(self, key, value):
         if value is None:
             return value
-
-        if not re.match(r"^\d{4}-\d{2}-\d{2}$", value):
+        if not .match(r"^\d{4}-\d{2}-\d{2}$", value):
             raise ValueError(
                 f"{key} debe tener el formato YYYY-MM-DD"
             )
@@ -31,7 +30,7 @@ class Prestamo(Base):
     returned = Column(Boolean, default=False)
 
     # Relacion
-    re_libro = relationship("Libro", back_populates="autor")
+    re_libro = relationship("Libro", back_populates="prestamos")
 
 
 
