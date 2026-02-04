@@ -7,6 +7,7 @@ class libroBase(BaseModel):
     available_copies:int
 class libroCreate(libroBase):
     autor_id:int
+
 class libroResponse(libroBase):
     id:int
     autor_id: int
