@@ -45,6 +45,7 @@ def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
     return libro
 
 # Actualizar los libros
+
 @router.put("/libro/{libro_id}/availability")
 def actualizar():
     pass
