@@ -15,8 +15,8 @@ class Libro(Base):
     available_copies = Column(Integer, nullable=False, default=1)
 
     # Relaciones
-    re_autor = relationship("Autor", back_populates="libros")
-    re_loans = relationship("Prestamo", back_populates="libros")
+    re_autor = relationship("Autor", backref="libros")
+    re_loans = relationship("Prestamo", backref="libros")
 
     # claves foraneas
     autor_id = Column(Integer, ForeignKey("autor.id"), nullable=False)
