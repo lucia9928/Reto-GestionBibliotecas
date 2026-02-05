@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class libroBase(BaseModel):
     title:str
@@ -13,3 +13,6 @@ class libroResponse(libroBase):
     autor_id: int
     class Config:
         from_attributes = True
+class libroUpdate(BaseModel):
+    available_copies:int
+

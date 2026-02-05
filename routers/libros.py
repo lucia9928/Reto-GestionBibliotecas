@@ -5,7 +5,7 @@ from fastapi import HTTPException, APIRouter
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from config.database import get_db
-from schemas.libro import libroCreate, libroResponse
+from schemas.libro import libroCreate, libroResponse, libroUpdate
 from models.libro import Libro
 
 
@@ -47,6 +47,16 @@ def obtener_libro(libro_id: int, db: Session=Depends(get_db)):
 # Actualizar los libros
 
 @router.put("/libro/{libro_id}/availability")
-def actualizar():
-    pass
+def actualizar(libro_id:int, libro_disponible:libroUpdate, db:Session=Depends(get_db)):
+    db_libro= db.query(Libro).filter(Libro.id == libro_id).first()
+    if not db_libro:
+        raise HTTPException(status_code=404, detail="Libro no encontrado")
+
+    db_libro.available_copies = libro_disponible.available_copies
+    db.commit()
+    db.refresh(db_libro)
+    return db_libro
+
+
+
 

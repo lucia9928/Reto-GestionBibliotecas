@@ -56,11 +56,12 @@ def obtener_prestamos():
     return prestamo
 
 @router.put("loans/{loan_id}/return")
-def marcar_prestamo():
+def marcar_prestamo(loan_id:int, db:Session=Depends(get_db)):
     prestamo = db.query(Prestamo).filter(Prestamo.id == loan_id).first()
     
     if not prestamo:
         raise HTTPException(status_code=404, detail="Prestamo no encontrado")
+
     prestamo.returned = True
     db.commit()
     db.refresh(prestamo)

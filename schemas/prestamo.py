@@ -26,4 +26,3 @@ class PrestamoResponse(PrestamoBase):
         return v
     class Config:
         from_attributes = True
-
